@@ -1,0 +1,27 @@
+plugins {
+    id "java"
+    id "idea"
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.jetbrains:annotations:_")
+
+    compileOnly 'org.projectlombok:lombok:_'
+    annotationProcessor 'org.projectlombok:lombok:_'
+}

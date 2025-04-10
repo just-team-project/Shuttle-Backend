@@ -1,0 +1,25 @@
+plugins {
+    id "custom.java-conventions"
+    id "custom.spring-conventions"
+    id "custom.jOOQ-conventions"
+    id "custom.jOOQ-generate-conventions"
+    id "connection.mysql-conventions"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":jOOQ-custom"))
+
+    implementation("org.springframework.boot:spring-boot-starter:_")
+
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-mysql'
+}

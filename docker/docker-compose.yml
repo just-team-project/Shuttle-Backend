@@ -1,0 +1,45 @@
+services:
+  shuttle-bus-mysql:
+    image: mysql:8.0.35
+    container_name: shuttle-bus-mysql
+    restart: always
+    volumes:
+      - shuttle-bus-volume-mysql:/data
+    ports:
+      - '8000:3306'
+    environment:
+      MYSQL_DATABASE: shuttlebus
+      MYSQL_ROOT_PASSWORD: passwd
+      TZ: Asia/Seoul
+    command:
+      [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--lower_case_table_names=1', '--default-time-zone=+9:00']
+    networks:
+      shuttle-bus-network:
+        ipv4_address: 172.10.0.2
+
+  shuttle-bus-redis:
+    image: redis:7.2-alpine
+    container_name: shuttle-bus-redis
+    restart: always
+    volumes:
+      - shuttle-bus-volume-redis:/data
+    environment:
+      TZ: Asia/Seoul
+    ports:
+      - '8001:6379'
+    command: redis-server --appendonly yes
+    networks:
+      shuttle-bus-network:
+        ipv4_address: 172.10.0.3
+
+networks:
+  shuttle-bus-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.10.0.0/16
+
+volumes:
+  shuttle-bus-volume-mysql:
+  shuttle-bus-volume-redis:

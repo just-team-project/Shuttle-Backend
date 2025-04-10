@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: shuttle-bus
+
+  config:
+    import:
+      - classpath:/mysql-source.yml
+      - classpath:/jooq.yml
+      - classpath:/flyway.yml
+
+server:
+  port: 8080

@@ -1,0 +1,19 @@
+plugins {
+    id "custom.java-conventions"
+    id "custom.spring-conventions"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(":domain")
+    implementation project(":infrastructure")
+
+    implementation("org.springframework.boot:spring-boot-starter:_")
+}

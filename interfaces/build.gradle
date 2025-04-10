@@ -1,0 +1,13 @@
+plugins {
+    id "custom.java-conventions"
+    id "custom.spring-conventions"
+}
+
+dependencies {
+    implementation project(":application")
+    implementation project(":domain")
+    compileOnly project(":infrastructure")
+
+    implementation("org.springframework.boot:spring-boot-starter-web:_")
+    implementation("org.springframework.boot:spring-boot-starter-validation:_")
+}

@@ -1,0 +1,12 @@
+plugins {
+}
+
+
+dependencies {
+    implementation "org.jooq:jooq:_"
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation('org.springframework.boot:spring-boot-starter-jooq:_') {
+        exclude group: 'org.jooq'
+    }
+
+}

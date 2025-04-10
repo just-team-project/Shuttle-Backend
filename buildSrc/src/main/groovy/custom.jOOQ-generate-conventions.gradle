@@ -1,0 +1,88 @@
+import org.jooq.meta.jaxb.*
+
+plugins {
+    id 'dev.monosoul.jooq-docker'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src/main/java", "src/generated"]
+        }
+    }
+}
+
+jooq {
+    version = "3.19.5"
+    withContainer {
+        image {
+            name = "mysql:8.0.35"
+            envVars = [
+                    MYSQL_ROOT_PASSWORD: "passwd",
+                    MYSQL_DATABASE     : "shuttlebus"
+            ]
+        }
+
+        db {
+            username = "root"
+            password = "passwd"
+            name = "shuttlebus"
+            port = 3306
+            jdbc {
+                schema = "jdbc:mysql"
+                driverClassName = "com.mysql.cj.jdbc.Driver"
+            }
+        }
+    }
+}
+
+tasks {
+    generateJooqClasses {
+        schemas.set(["shuttlebus"])
+        outputDirectory.set(project.layout.projectDirectory.dir("src/generated"))
+        includeFlywayTable.set(false)
+
+        usingJavaConfig {
+            generate = new Generate()
+                    .withJavaTimeTypes(true)
+                    .withDeprecated(false)
+                    .withDaos(false)
+                    .withFluentSetters(false)
+                    .withRecords(false)
+                    .withPojos(false)
+
+
+            withStrategy(
+                    new Strategy().withName("jooq.custom.generator.JPrefixGeneratorStrategy")
+            )
+
+            database.withForcedTypes(
+                    new ForcedType()
+                            .withUserType("java.lang.Long")
+                            .withTypes("int unsigned"),
+                    new ForcedType()
+                            .withUserType("java.lang.Integer")
+                            .withTypes("tinyint unsigned"),
+                    new ForcedType()
+                            .withUserType("java.lang.Integer")
+                            .withTypes("smallint unsigned"),
+                    new ForcedType()
+                            .withUserType("java.lang.String")
+                            .withConverter("jooq.custom.generator.converter.BinaryUuidToStringConverter")
+                            .withTypes("binary\\(16\\)")
+            )
+        }
+    }
+}
+
+
+dependencies {
+    jooqCodegen project(':jOOQ-custom')
+
+    jooqCodegen "org.jooq:jooq:_"
+    jooqCodegen "org.jooq:jooq-meta:_"
+    jooqCodegen "org.jooq:jooq-codegen:_"
+
+    jooqCodegen 'org.flywaydb:flyway-core:_'
+    jooqCodegen 'org.flywaydb:flyway-mysql:_'
+}

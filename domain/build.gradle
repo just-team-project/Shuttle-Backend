@@ -1,0 +1,19 @@
+plugins {
+    id "custom.spring-conventions"
+    id "custom.java-conventions"
+    id "custom.test-conventions"
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter:_'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:_'
+    implementation 'org.apache.commons:commons-lang3:_'
+}
