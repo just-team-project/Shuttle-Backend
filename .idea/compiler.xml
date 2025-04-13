@@ -10,6 +10,7 @@
         </processorPath>
         <module name="shuttlebus.interfaces.main" />
         <module name="shuttlebus.jOOQ-custom.main" />
+        <module name="shuttlebus.common.main" />
         <module name="shuttlebus.domain.main" />
         <module name="shuttlebus.infrastructure.main" />
         <module name="shuttlebus.application.main" />
