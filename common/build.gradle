@@ -12,5 +12,6 @@ jar {
 }
 
 dependencies {
-
+    implementation 'org.springframework.boot:spring-boot-starter-aop:_'
+    implementation 'org.springframework.boot:spring-boot-starter:_'
 }
